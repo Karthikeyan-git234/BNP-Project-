@@ -1,0 +1,5 @@
+package com.example.suuper.Repository;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+interface TickettRepository extends JpaRepository<Tickett, Long> {}
