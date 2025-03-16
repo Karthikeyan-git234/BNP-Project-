@@ -1,5 +1,13 @@
-package com.example.suuper.Repository;
+package com.example.mypkg.Repositiory;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-interface TickettRepository extends JpaRepository<Tickett, Long> {}
+import com.example.mypkg.Entity.Passengerlist;
+
+@Repository
+
+public interface Passengerrepository extends JpaRepository<Passengerlist,Integer >{
+
+}
+
