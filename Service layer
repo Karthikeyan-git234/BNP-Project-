@@ -1,41 +1,41 @@
-package com.example.suuper.Service;
+package com.example.mypkg.Service;
 
-import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
+import com.example.mypkg.Entity.Passengerlist;
+import com.example.mypkg.Repositiory.Passengerrepository;
+
 @Service
-class TicketService {
-    @Autowired
-    private JpaRepository ticketRepository;
-    
-    public List<Tickett> getAllTickets() {
-        return ticketRepository.findAll();
+
+public class Passengerservice {
+	
+		
+	@Autowired
+	Passengerrepository plrepo;
+	public Optional<Passengerlist> getList(int pid){
+	
+      return plrepo.findById(pid);
+      }
+	 // POST - Add a new passenger
+    public Passengerlist addPassenger(Passengerlist passenger) {
+        return plrepo.save(passenger);
     }
-    
-    public Optional<Ticket> getTicketById(Long id) {
-        return ticketRepository.findById(id);
+
+    // PUT - Update an existing passenger
+    public Passengerlist updatePassenger(int pid, Passengerlist updatedPassenger) {
+        return plrepo.findById(pid).map(passenger -> {
+           // passenger.setFirstname(updatedPassenger.getFirstname());
+            passenger.setPid(updatedPassenger.getPid());
+           // passenger.setSource(updatedPassenger.getSource());
+            return plrepo.save(passenger);
+        }).orElseThrow(() -> new RuntimeException("Passenger not found with ID: " + pid));
     }
-    
-    public Tickett bookTicket(Tickett ticket) {
-        return ticketRepository.save(ticket);
-    }
-    
-    public Tickett updateTicket(Long id, Tickett ticketDetails) {
-        return ticketRepository.findById(id).map(ticket -> {
-            ticket.setPassengerName(ticketDetails.getPassengerName());
-            ticket.setSource(ticketDetails.getSource());
-            ticket.setDestination(ticketDetails.getDestination());
-            ticket.setTravelDate(ticketDetails.getTravelDate());
-            return ticketRepository.save(ticket);
-        }).orElseThrow(() -> new RuntimeException("Ticket not found"));
-    }
-    
-    public void deleteTicket(Long id) {
-        ticketRepository.deleteById(id);
+
+    // DELETE - Remove a passenger
+    public void deletePassenger(int pid) {
+        plrepo.deleteById(pid);
     }
 }
-
-}}
